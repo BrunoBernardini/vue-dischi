@@ -12,7 +12,7 @@
 
 <script>
 export default {
-
+  name: "HeaderComp"
 }
 </script>
 
@@ -24,6 +24,7 @@ header{
   align-items: center;
   justify-content: space-between;
   padding: 25px;
+  margin-bottom: 65px;
   height: 69px;
   background-color: $secondary-color;
   img{
