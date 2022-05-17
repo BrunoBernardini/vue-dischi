@@ -24,17 +24,21 @@ export default {
   flex-direction: column;
   width: 227px;
   height: 378px;
-  margin: 0 16px 10px 16px;
-  margin-bottom: 32px;
+  margin: 0 16px 32px 16px;
   background-color: $secondary-color;
   padding: 16px;
   text-align: center;
   img{
     margin-bottom: 18px;
+    transition: all 0.15s;
+  }
+  &:hover img{
+    scale: 105%;
   }
   h4{
     color: white;
     font-size: 1rem;
+    text-transform: uppercase;
     margin-bottom: 19px;
   }
   span{
