@@ -1,18 +1,34 @@
 <template>
   <header>
     <img src="../assets/img/logo.svg" alt="">
-    <select class="form-select top-select">
-      <option selected>Seleziona un genere</option>
-      <option value="1">Uno</option>
-      <option value="2">Due</option>
-      <option value="3">Tre</option>
-    </select>
+    <div class="select-container">
+      <SelectComp 
+        :options="filters.authors"
+        :type="'autore'"
+        @sendFilterToHeader='sendFilterToApp'/>
+      <SelectComp
+        :options="filters.genres"
+        :type="'genere'"
+        @sendFilterToHeader='sendFilterToApp'/>
+    </div>
   </header>
 </template>
 
 <script>
+import SelectComp from './SelectComp.vue';
 export default {
-  name: "HeaderComp"
+  name: "HeaderComp",
+  components: {
+    SelectComp
+  },
+  props:{
+    filters: Object
+  },
+  methods:{
+    sendFilterToApp(filterObject){
+      this.$emit("sendFilterToApp", filterObject);
+    }
+  }
 }
 </script>
 
@@ -31,8 +47,10 @@ header{
     width: 38px;
     filter: invert(48%) sepia(71%) saturate(448%) hue-rotate(84deg) brightness(95%) contrast(91%);
   }
-  .top-select{
-    max-width: 193px;
+  .select-container{
+    display: flex;
+    justify-content: space-between;
+    width: 420px;
   }
 }
 </style>

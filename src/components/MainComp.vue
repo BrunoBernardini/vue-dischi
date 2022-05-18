@@ -2,7 +2,7 @@
   <main class="container main-container">
     <div v-if="isLoaded" class="cards-container">
       <CardItem
-      v-for="(card, index) in cards"
+      v-for="(card, index) in filteredCards"
       :key="`card-${index}`"
       :cardInfo="card"/>
     </div>
@@ -22,12 +22,19 @@ export default {
   components: {
     CardItem,
     LoaderComp
-},
+  },
+  props: {
+    currentFilters: Object
+  },
   data(){
     return{
       apiUrl: "https://flynn.boolean.careers/exercises/api/array/music",
       cards: [],
-      isLoaded: false
+      isLoaded: false,
+      filters: {
+        genres: [],
+        authors: []
+      }
     }
   },
   mounted(){
@@ -37,13 +44,42 @@ export default {
     getApi(){
       axios.get(this.apiUrl)
         .then(resp=>{
-          console.log(resp.data);
           this.cards = resp.data.response;
+          this.getGenres();
+          this.getAuthors();
+          this.$emit('transferFilters', this.filters)
           this.isLoaded = true;
         })
         .catch(error=>{
           console.log(error);
         })
+    },
+    getGenres(){
+      for(let card of this.cards){
+        if(!this.filters.genres.includes(card.genre)) this.filters.genres.push(card.genre)
+      }
+    },
+    getAuthors(){
+      for(let card of this.cards){
+        if(!this.filters.authors.includes(card.author)) this.filters.authors.push(card.author)
+      }
+    },
+  },
+  computed:{
+    filteredCards(){
+      let filteredArray = [];
+      if(this.currentFilters.genre != ""){
+        filteredArray = this.cards.filter(card=>{
+          return card.genre===this.currentFilters.genre;
+        })
+      }
+      else filteredArray = this.cards;
+      if(this.currentFilters.author != ""){
+        filteredArray = filteredArray.filter(card=>{
+          return card.author===this.currentFilters.author;
+        })
+      }
+      return filteredArray;
     }
   }
 }
