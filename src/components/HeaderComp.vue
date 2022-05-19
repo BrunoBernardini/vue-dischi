@@ -4,11 +4,11 @@
     <div class="select-container">
       <SelectComp 
         :options="filters.authors"
-        :type="'autore'"
+        type="autore"
         @sendFilterToHeader='sendFilterToApp'/>
       <SelectComp
         :options="filters.genres"
-        :type="'genere'"
+        type="genere"
         @sendFilterToHeader='sendFilterToApp'/>
     </div>
   </header>

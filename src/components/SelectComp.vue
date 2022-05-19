@@ -1,16 +1,12 @@
 <template>
-  <select class="form-select">
-    <option 
-      selected
-      value=""
-      @click="sendFilters('')">
+  <select class="form-select" @change="sendFilters" v-model="selectedFilter">
+    <option selected value="">
       <span v-if="filterParameters.filterName===''">Seleziona un {{type}}</span>
       <span v-else>Deseleziona</span></option>
     <option
       v-for="(option, index) in options"
       :key="`${option}-${index}`"
-      :value="option"
-      @click="sendFilters(option)">{{option}}</option>
+      :value="option">{{option}}</option>
   </select>
 </template>
 
@@ -27,12 +23,13 @@ export default {
       filterParameters: {
         filterType: this.type,
         filterName: ""
-      }
+      },
+      selectedFilter: ""
     }
   },
   methods: {
     sendFilters(filterOption){
-      this.filterParameters.filterName = filterOption;
+      this.filterParameters.filterName = filterOption.target.value;
       this.$emit("sendFilterToHeader", this.filterParameters);
     }
   }
